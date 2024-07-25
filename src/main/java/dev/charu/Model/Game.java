@@ -2,6 +2,8 @@ package dev.charu.Model;
 
 import dev.charu.Exceptions.InvalidMoveException;
 import dev.charu.Exceptions.InvalidPlayerException;
+import dev.charu.Startegy.gameWinning.GameWinningStaregies;
+import dev.charu.Startegy.gameWinning.orderOneCheckWinner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,6 +16,18 @@ public class Game {
     private gameStatus gameStatus;
 
     private int nextPlayer;
+
+    private GameWinningStaregies gameWinningStaregies;
+
+    private Player winner;
+
+    public void setGameWinningStaregies(GameWinningStaregies gameWinningStaregies) {
+        this.gameWinningStaregies = gameWinningStaregies;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
 
     public static builder getbuilder(){
         return new builder();
@@ -46,6 +60,7 @@ public class Game {
             Game game=new Game();
             game.players=this.game.players;
             game.board=this.game.board;
+            game.gameWinningStaregies=new orderOneCheckWinner(this.game.board.getBoard().size());
             game.gameStatus= dev.charu.Model.gameStatus.IN_PROGRESS;
             return game;
 
@@ -122,6 +137,11 @@ public class Game {
 
 
         board.update(boardCell);
+        if(gameWinningStaregies.checkWinner(board, boardCell.getRow(), boardCell.getCol(), player.getSymbol())){
+            this.setGameStatus(dev.charu.Model.gameStatus.OVER);
+            this.setWinner(player);
+            System.out.println("WON THIS GAME");
+        }
 
         nextPlayer=(nextPlayer+1)%2;
         board.displayBoard();

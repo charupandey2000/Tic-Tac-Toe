@@ -50,13 +50,21 @@ public class Board {
 
     public List<boardCell> getAvailablecell(){
         List<boardCell>ans=new ArrayList<>();
-        for(int i=0;i<board.size();i++){
-            for(int j=0;j<board.size();j++){
-                if(board.get(i).get(j).getPlayer()==null){
-                    ans.add(board.get(i).get(j));
+//        for(int i=0;i<board.size();i++){
+//            for(int j=0;j<board.size();j++){
+//                if(board.get(i).get(j).getPlayer()==null){
+//                    ans.add(board.get(i).get(j));
+//                }
+//            }
+//        }
+        for(List<boardCell>x:board){
+            for(boardCell boardCell:x){
+                if(boardCell.getPlayer()==null){
+                    ans.add(boardCell);
                 }
             }
         }
+
         return ans;
     }
 }
